@@ -24,14 +24,6 @@ module.exports = {
         allowNull: false, // Not null
         unique: true, // Unique constraint
       },
-      originalname: {
-        type: Sequelize.STRING(100), // String type with a maximum length of 100
-        allowNull: false, // Not null
-      },
-      filename: {
-        type: Sequelize.STRING(100), // String type with a maximum length of 100
-        allowNull: false, // Not null
-      },
       created_at: {
         type: Sequelize.DATE, // Date type
         allowNull: false, // Not null

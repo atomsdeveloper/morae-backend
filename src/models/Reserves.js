@@ -71,14 +71,4 @@ export default class Reserves extends Model {
     // by comparing it with the hashed password stored in the database
     return bcrypt.compare(password, this.password_hash);
   }
-
-  // Define associations with other models
-  // This method is used to define relationships between models
-
-  static associate(models) {
-    // Define a one-to-many relationship with the Photo model
-    // This means that a student can have many photos
-    // Define a one-to-many relationship with the Photo model
-    // This means that a student can have many photos
-  }
 }

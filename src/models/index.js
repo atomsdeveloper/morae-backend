@@ -10,12 +10,14 @@ import UserReserve from "./UserReserve.js";
 
 // Model Associations
 import associateModels from "./associations.js";
+import Photo from "./Photo.js";
 
 const sequelize = new Sequelize(configDatabase);
 
 User.init(sequelize);
 Reserves.init(sequelize);
 UserReserve.init(sequelize);
-associateModels();
+Photo.init(sequelize);
+associateModels({ User, Reserves, UserReserve, Photo });
 
-export { sequelize, User, Reserves, UserReserve };
+export { sequelize, User, Reserves, UserReserve, Photo };
