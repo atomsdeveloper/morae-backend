@@ -1,4 +1,5 @@
-// models/UserReserve.js
+import { Model, DataTypes } from "sequelize";
+// Importing bcrypt for password hashing
 export default class UserReserve extends Model {
   static init(sequelize) {
     super.init(

@@ -16,10 +16,6 @@ module.exports = {
   },
   dialectOptions: {
     timezone: "America/Sao_Paulo", // Set the timezone to Brazil
-    ssl: {
-      require: true, // Ensure that SSL using
-      rejectUnauthorized: false, // Allow connection with SSL, even without check certificate.
-    },
   },
   timezone: "America/Sao_Paulo", // Set the timezone to Brazil
 };

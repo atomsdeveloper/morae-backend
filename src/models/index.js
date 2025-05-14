@@ -14,10 +14,10 @@ import Photo from "./Photo.js";
 
 const sequelize = new Sequelize(configDatabase);
 
+UserReserve.init(sequelize);
 User.init(sequelize);
 Reserves.init(sequelize);
-UserReserve.init(sequelize);
 Photo.init(sequelize);
-associateModels({ User, Reserves, UserReserve, Photo });
+associateModels();
 
 export { sequelize, User, Reserves, UserReserve, Photo };

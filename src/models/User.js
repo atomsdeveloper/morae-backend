@@ -142,12 +142,10 @@ export default class User extends Model {
   }
 
   static associate(models) {
-    // Define a one-to-many relationship with the Photo model
-    // This means that a student can have many photos
-    this.belongsToMany(models.UserReserve, {
+    this.belongsToMany(models.Reserves, {
       through: models.UserReserve,
       foreignKey: "user_id",
-      reserveIdKey: "reserve_id",
+      otherKey: "reserve_id",
       as: "reserves",
     });
   }

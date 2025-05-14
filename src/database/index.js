@@ -4,9 +4,12 @@ import dbConfig from "../config/database.js";
 
 // Importando os models
 import User from "../models/User.js";
+import UserReserve from "../models/UserReserve.js";
+import Photo from "../models/Photo.js";
+import Reserves from "../models/Reserves.js";
 
 // Array contendo todos os models que serão inicializados com a conexão
-const models = [User];
+const models = [User, UserReserve, Photo, Reserves];
 
 // Criando uma nova instância do Sequelize com as configurações do banco de dados
 const connection = new Sequelize(dbConfig);

@@ -71,4 +71,13 @@ export default class Reserves extends Model {
     // by comparing it with the hashed password stored in the database
     return bcrypt.compare(password, this.password_hash);
   }
+
+  static associate(models) {
+    this.belongsToMany(models.User, {
+      through: models.UserReserve,
+      foreignKey: "reserve_id",
+      otherKey: "user_id",
+      as: "users",
+    });
+  }
 }
