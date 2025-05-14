@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/server.js",
+    "dev": "nodemon server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/atomsdeveloper/morae-backend#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
