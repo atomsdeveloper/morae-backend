@@ -4,15 +4,14 @@ dotenv.config();
 
 import cors from "cors";
 
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import express from "express";
 
 // Importing the database connection
-import "./database/index.js";
+import "./src/database/index.js";
 
 // Routes
-import homeRoute from "./routes/homeRoute.js";
+import homeRoute from "./src/routes/homeRoutes.js";
 
 const corsOptions = {
   origin: [
@@ -50,8 +49,7 @@ class App {
     this.app.use(cors(corsOptions));
     // this.app.use(helmet(helmetOptions));
     this.app.use(express.json());
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    this.app.use(express.static(resolve(__dirname, "uploads")));
+    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static(resolve(__dirname, "uploads")));
   }
 
