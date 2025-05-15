@@ -115,6 +115,17 @@ export default class User extends Model {
             },
           },
         },
+        role: {
+          type: DataTypes.ENUM("admin", "read"), // ou use STRING se preferir flexibilidade
+          allowNull: false,
+          defaultValue: "read",
+          validate: {
+            isIn: {
+              args: [["admin", "read"]],
+              msg: "O tipo de usuário deve ser admin ou read",
+            },
+          },
+        },
       },
       {
         sequelize,
