@@ -12,6 +12,8 @@ import "./src/database/index.js";
 
 // Routes
 import homeRoute from "./src/routes/homeRoutes.js";
+import tokenRoute from "./src/routes/tokenRoutes.js";
+import userRoute from "./src/routes/userRoutes.js";
 
 const corsOptions = {
   origin: [
@@ -55,6 +57,8 @@ class App {
 
   routes() {
     this.app.use("/", homeRoute);
+    this.app.use("/token", tokenRoute);
+    this.app.use("/users", userRoute);
   }
 }
 
