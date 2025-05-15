@@ -1,7 +1,6 @@
-require("dotenv").config(); // Load environment variables from .env file
-
+require("dotenv").config();
 module.exports = {
-  dialect: "postgres", // Use postgreSQL as the database dialect
+  dialect: "postgres",
   database: process.env.DATABASE_NAME,
   host: process.env.DATABASE_HOST,
   username: process.env.DATABASE_USER,
@@ -15,7 +14,11 @@ module.exports = {
     updatedAt: "updated_at", // Rename updatedAt to updated_at
   },
   dialectOptions: {
-    timezone: "America/Sao_Paulo", // Set the timezone to Brazil
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // Change when up prod.
+    },
+    timezone: "America/Sao_Paulo",
   },
-  timezone: "America/Sao_Paulo", // Set the timezone to Brazil
+  timezone: "America/Sao_Paulo",
 };
