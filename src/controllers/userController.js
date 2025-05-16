@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Reserves from "../models/Reserves.js";
+import Photo from "../models/Photo.js";
 
 class UserController {
   async index(req, res) {
@@ -13,7 +14,19 @@ class UserController {
             attributes: {
               exclude: ["password_hash", "created_at", "updated_at", "id"],
             },
+            include: [
+              {
+                model: Photo,
+                as: "photos", // Certifique-se que o 'as' seja exatamente esse na associação em Reserves
+                attributes: ["id", "filename", "originalname"],
+              },
+            ],
             through: { attributes: [] },
+          },
+          {
+            model: Photo,
+            as: "photos",
+            attributes: ["id", "filename", "originalname"], // escolha os campos que deseja
           },
         ],
       });
@@ -89,7 +102,19 @@ class UserController {
             attributes: {
               exclude: ["created_at", "updated_at"],
             },
+            include: [
+              {
+                model: Photo,
+                as: "photos",
+                attributes: ["id", "filename", "originalname"],
+              },
+            ],
             through: { attributes: [] },
+          },
+          {
+            model: Photo,
+            as: "photos", // ou "photo" se for hasOne
+            attributes: ["id", "filename", "originalname"], // escolha os campos que deseja
           },
         ],
       });
