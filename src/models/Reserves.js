@@ -107,5 +107,10 @@ export default class Reserves extends Model {
       otherKey: "user_id",
       as: "users",
     });
+
+    this.hasMany(models.Photo, {
+      foreignKey: "reserve_id",
+      as: "photos",
+    });
   }
 }
