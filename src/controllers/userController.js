@@ -10,6 +10,9 @@ class UserController {
           {
             model: Reserves,
             as: "reserves",
+            attributes: {
+              exclude: ["password_hash", "created_at", "updated_at", "id"],
+            },
             through: { attributes: [] },
           },
         ],
@@ -83,6 +86,9 @@ class UserController {
           {
             model: Reserves,
             as: "reserves",
+            attributes: {
+              exclude: ["created_at", "updated_at"],
+            },
             through: { attributes: [] },
           },
         ],
