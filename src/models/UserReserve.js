@@ -4,12 +4,20 @@ export default class UserReserve extends Model {
   static init(sequelize) {
     super.init(
       {
-        reserve_date: {
+        start_date: {
           type: DataTypes.DATEONLY,
           allowNull: false,
           validate: {
-            notNull: { msg: "A data da reserva é obrigatória" },
-            isDate: { msg: "A data da reserva deve ser válida" },
+            notNull: { msg: "A data de início da reserva é obrigatória" },
+            isDate: { msg: "A data de início deve ser válida" },
+          },
+        },
+        end_date: {
+          type: DataTypes.DATEONLY,
+          allowNull: false,
+          validate: {
+            notNull: { msg: "A data de término da reserva é obrigatória" },
+            isDate: { msg: "A data de término deve ser válida" },
           },
         },
       },
