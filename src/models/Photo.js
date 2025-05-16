@@ -1,11 +1,54 @@
 import { Model, DataTypes } from "sequelize";
+import urlConfig from "../config/urlConfig";
 
 export default class Photo extends Model {
   static init(sequelize) {
     super.init(
       {
-        filename: DataTypes.STRING,
-        originalname: DataTypes.STRING,
+        filename: {
+          type: DataTypes.STRING(100),
+          allowNull: true,
+          defaultValue: "",
+          validate: {
+            notEmpty: {
+              msg: "Filename não pode ser vazio",
+            },
+          },
+        },
+        originalname: {
+          type: DataTypes.STRING(100),
+          allowNull: true,
+          defaultValue: "",
+          validate: {
+            notEmpty: {
+              msg: "Originalname não pode ser vazio",
+            },
+          },
+        },
+        user_id: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "users",
+            key: "id",
+          },
+        },
+        reserve_id: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "reserves",
+            key: "id",
+          },
+        },
+        url: {
+          type: DataTypes.VIRTUAL,
+          get() {
+            const filename = this.getDataValue("filename");
+            const isCloudinary = filename.startsWith("http");
+            return isCloudinary ? filename : `${urlConfig.baseURL}/${filename}`;
+          },
+        },
       },
       {
         sequelize,
