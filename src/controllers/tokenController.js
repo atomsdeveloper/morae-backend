@@ -44,14 +44,16 @@ class TokenController {
           name: user.name,
           email: user.email,
           id: user.id,
-          rule: user.role,
+          role: user.role,
         },
       });
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({ error: error.errors.map((err) => err.message) });
+      return res.status(500).json({
+        error: error.errors
+          ? error.errors.map((err) => err.message)
+          : [error.message],
+      });
     }
   }
 }

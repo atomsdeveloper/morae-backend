@@ -9,13 +9,12 @@ import adminRequired from "../middleware/adminRequired.js";
 import UserController from "../controllers/userController.js";
 
 // Routes
-// Not should be used in production
-router.get("/", UserController.index);
-// router.get("/:id", UserController.show);
+router.get("/", loginRequired, adminRequired, UserController.index);
+router.get("/:id", loginRequired, adminRequired, UserController.show);
 
 router.post("/create", loginRequired, adminRequired, UserController.store);
-// router.put("/:id/edit", loginRequired, UserController.update);
-// router.delete("/:id/delete", loginRequired, UserController.delete);
+router.put("/:id/edit", loginRequired, UserController.update);
+router.delete("/:id/delete", loginRequired, UserController.delete);
 
 export default router;
 

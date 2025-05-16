@@ -1,10 +1,18 @@
 import User from "../models/User.js";
+import Reserves from "../models/Reserves.js";
 
 class UserController {
   async index(req, res) {
     try {
       const users = await User.findAll({
         attributes: { exclude: ["password_hash"] },
+        include: [
+          {
+            model: Reserves,
+            as: "reserves",
+            through: { attributes: [] },
+          },
+        ],
       });
 
       return res.json({
@@ -67,7 +75,18 @@ class UserController {
         });
       }
 
-      const user = await User.findByPk(req.params.id);
+      const user = await User.findByPk(req.params.id, {
+        attributes: {
+          exclude: ["password_hash", "created_at", "updated_at", "id"],
+        },
+        include: [
+          {
+            model: Reserves,
+            as: "reserves",
+            through: { attributes: [] },
+          },
+        ],
+      });
 
       if (!user) {
         return res.status(404).json({
@@ -80,8 +99,7 @@ class UserController {
         success: true,
         message: "Usuário encontrado.",
         data: {
-          name: req.body.name,
-          email: req.body.email,
+          user,
         }, // Returning only the name and email of the created user
       });
     } catch (error) {
@@ -96,18 +114,23 @@ class UserController {
 
   async update(req, res) {
     try {
-      // This method handles the update route
-      // It updates a user by its ID in the database
+      if (req.user.id !== req.params.id && req.user.role !== "admin") {
+        return res.status(403).json({
+          success: false,
+          message: "Você não tem permissão para atualizar o usuário.",
+        });
+      }
 
-      // It checks if the ID is provided in the URL that generates the token
-      if (!req.userId) {
+      if (!req.user.id) {
         return res.status(400).json({
           success: false,
           message: "ID do usuário não informado.",
         });
       }
 
-      const user = await User.findByPk(req.userId);
+      const user = await User.findByPk(req.user.id, {
+        attributes: ["id", "name", "email", "role"],
+      });
 
       if (!user) {
         return res.status(404).json({
@@ -122,9 +145,8 @@ class UserController {
         success: true,
         message: "Usuário atualizado com sucesso.",
         data: {
-          name: req.body.name,
-          email: req.body.email,
-        }, // Returning only the name and email of the created user
+          user,
+        },
       });
     } catch (error) {
       // If an error occurs, it sends a response with the error message
@@ -138,18 +160,20 @@ class UserController {
 
   async delete(req, res) {
     try {
-      // This method handles the delete route
-      // It deletes a user by its ID from the database
-
-      // It checks if the ID is provided in the URL that generates the token
-      if (!req.userId) {
+      if (req.user.role !== "admin") {
+        return res.status(403).json({
+          success: false,
+          message: "Você não tem permissão para deletar o usuário.",
+        });
+      }
+      if (!req.user.id) {
         return res.status(400).json({
           success: false,
           message: "ID do usuário não informado.",
         });
       }
 
-      const user = await User.findByPk(req.userId);
+      const user = await User.findByPk(req.params.id);
 
       if (!user) {
         return res.status(404).json({

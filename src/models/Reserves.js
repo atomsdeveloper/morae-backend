@@ -32,19 +32,47 @@ export default class Reserves extends Model {
           allowNull: false,
           defaultValue: "",
         },
-        cty: {
+        city: {
           type: DataTypes.STRING(100),
           allowNull: false,
           unique: true,
           defaultValue: "",
         },
-        originalname: {
-          type: DataTypes.STRING(100),
-          allowNull: false,
+        description: {
+          type: DataTypes.TEXT,
+          allowNull: true,
         },
-        filename: {
-          type: DataTypes.STRING(100),
+        rooms: {
+          type: DataTypes.INTEGER,
           allowNull: false,
+          defaultValue: 1,
+          validate: {
+            isInt: { msg: "O número de quartos deve ser um número inteiro" },
+            min: {
+              args: [1],
+              msg: "Deve haver pelo menos 1 quarto",
+            },
+          },
+        },
+        type: {
+          type: DataTypes.STRING(50),
+          allowNull: false,
+          defaultValue: "hotel",
+          validate: {
+            notEmpty: { msg: "O tipo não pode estar vazio" },
+          },
+        },
+        price: {
+          type: DataTypes.DECIMAL(10, 2),
+          allowNull: false,
+          defaultValue: 0.0,
+          validate: {
+            isDecimal: { msg: "O preço deve ser um número decimal" },
+            min: {
+              args: [0],
+              msg: "O preço não pode ser negativo",
+            },
+          },
         },
       },
       {

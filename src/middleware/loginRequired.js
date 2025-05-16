@@ -4,10 +4,9 @@ dotenv.config();
 
 import User from "../models/User.js";
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   const { authorization } = req.headers;
 
-  // Check if the authorization header is present
   if (!authorization) {
     return res.status(401).json({
       success: false,
@@ -15,31 +14,24 @@ export default (req, res, next) => {
     });
   }
 
-  // Check if the token is in the correct format
   const [text, token] = authorization.split(" ");
 
+  if (text !== "Bearer" || !token) {
+    return res.status(401).json({
+      success: false,
+      message: "Token inválido.",
+    });
+  }
   try {
-    // Check if the token is in the correct format
-    if (text !== "Bearer" || !token) {
-      return res.status(401).json({
-        success: false,
-        message: "Token inválido.",
-      });
-    }
-
-    // Verify the token
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    const user = User.findOne({
+    const user = await User.findOne({
       where: {
         id: decoded.id,
-        name: decoded.name,
-        email: decoded.email,
       },
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name", "email", "role"],
     });
 
-    // Check if the user exists
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -47,16 +39,21 @@ export default (req, res, next) => {
       });
     }
 
-    // Attach the user information to the request object
-    req.userId = decoded.id;
-    req.userName = decoded.name;
-    req.userEmail = decoded.email;
+    req.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
 
     return next();
   } catch (error) {
     return res.status(401).json({
       success: false,
       message: "Token inválido ou expirado.",
+      error: error.errors
+        ? error.errors.map((err) => err.message)
+        : [error.message],
     });
   }
 };
